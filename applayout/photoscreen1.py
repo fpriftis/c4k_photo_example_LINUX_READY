@@ -7,6 +7,8 @@ from kivy.utils import platform
 from camera4kivy import Preview
 from applayout.swipescreen import SwipeScreen
 from applayout.toast import Toast
+import re
+import subprocess
 
 PS1 = """
 <PhotoScreen1>:
@@ -23,7 +25,18 @@ class PhotoScreen1(SwipeScreen):
         super().__init__(**args)
     
     def on_enter(self):
-        self.photo_preview.connect_camera(filepath_callback= self.capture_path)
+        result = subprocess.run('ip route | grep default', 
+                       shell=True, 
+                       capture_output=True, 
+                       text=True)
+
+        output = result.stdout
+        #The 'ip route | grep default' command returns: default via <IP_HERE> dev eth0 proto kernel
+        #extracting the ip from the command output
+        my_ip = re.search(r'via\s+(\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3})', output).group(1)
+        self.photo_preview.connect_camera(camera_id=f"tcp://{my_ip}:8090",
+                                  filepath_callback=self.capture_path,
+                                  sensor_rotation=90)
 
     def on_pre_leave(self):
         self.photo_preview.disconnect_camera()
