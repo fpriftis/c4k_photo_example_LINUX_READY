@@ -1,5 +1,6 @@
 The only change made is in the ./src/applayout/photoscreen1.py  ->  on_enter
 
+This is thanks to Hamburguesa from Discord and https://kivyschool.com/. He provided me with this solution
 
 This is made so it works for linux (wsl)
 
