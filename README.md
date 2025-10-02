@@ -1,55 +1,12 @@
-Camera4Kivy Photo Example
-=========================
-
-*Just Basic Camera Stuff, but you gotta start somewhere.*
-
-**2023-11-13 This repository is archived.**
-
-# Overview
-
-Four screens showing camera orientation, aspect ratio, and image capture. On mobile devices, rotate the device to see different layouts. On the desktop change the window size to change the window from landscape to portrait to simulate rotating a mobile device.
-
-Available on most of the [usual platforms](https://github.com/Android-for-Python/Camera4Kivy/#tested-examples-and-platforms).
-
-The example demonstrates Preview Widget layout: orientation, aspect ratio, and letterbox handling. Also switching between cameras, image capture, and screenshot capture. On Android only it demonstrates video with audio capture, pinch/spread zoom, and tap focus/exposure. 
-
-# Install
-
-This example depends on Camera4Kivy. **[Read about Camera4Kivy](https://github.com/Android-for-Python/Camera4Kivy#camera4kivy)** because, depending on the platform you may need to install a [camera provider](https://github.com/Android-for-Python/camera4kivy#camera-provider).
+The only change made is in the ./src/applayout/photoscreen1.py  ->  on_enter
 
 
-## Windows, MacOS, Linux
+This is made so it works for linux (wsl)
 
-`pip3 install camera4kivy`
-
-## Android
-
-Camera4Kivy depends on Buildozer 1.3.0 or later
-
-```
-requirements = python3,kivy,camera4kivy,gestures4kivy
-android.permissions = CAMERA, RECORD_AUDIO
-p4a.hook = camerax_provider/gradle_options.py
-```
-
-The example includes a [camera provider](https://github.com/Android-for-Python/camera4kivy#android-camera-provider) and a [buildozer.spec](https://github.com/Android-for-Python/camera4kivy#buildozerspec).
-
-## iOS
-
-`toolchain pip3 install camera4kivy`
-
-Permission to use the camera and save images is **required** by iOS. To enable permissions edit `<project>-ios/<project-Info.plist`. These two entries must be added:
-
-To enable use of the Camera add:
-```
-	<key>NSCameraUsageDescription</key>
-	<string> </string>
-```
-To enable saving image captures to the Photos App (the default behavior) add:
-```
-	<key>NSPhotoLibraryAddUsageDescription</key>
-	<string> </string>
-```
-
-
-
+If working on wsl follow these instructions:
+- On windows poweshell run:
+- 	Get-CimInstance Win32_PnPEntity | ? { $_.service -eq "usbvideo" } | Select-Object -Property PNPDeviceID, Name
+- 		This will get you your cameras ID and names
+- 	ffmpeg -f dshow -i video="YOUR_CAMERA_NAME" -video_size 1280x960 -framerate 30 -f mjpeg -q:v 5 tcp://0.0.0.0:8090?listen
+- 		This will make the camera unavailable to windows and ready for WSL
+  
